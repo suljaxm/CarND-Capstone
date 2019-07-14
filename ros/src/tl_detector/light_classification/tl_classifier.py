@@ -6,8 +6,11 @@ import cv2
 import rospy
 
 class TLClassifier(object):
-    def __init__(self):
+    def __init__(self, is_site):
         #TODO load classifier
+        self.is_site = is_site
+
+        rospy.logwarn("is_site is %s!", self.is_site)
 
         self.image_tensor = None
         self.detection_boxes = None
@@ -23,7 +26,9 @@ class TLClassifier(object):
     def load_model(self):
         # get the path where saved the models
         dir = os.path.dirname(os.path.realpath(__file__))
-        graph_file = dir + '/models/frozen_inf_graph_sim_ssd.pb'
+        path_real = dir + '/models/model_ssd/frozen_inference_graph.pb'
+        path_sim = dir + '/models/frozen_inf_graph_sim_ssd.pb'
+        graph_file = path_real if self.is_site else path_sim
         # load frozen graph
         """Loads a frozen inference graph"""
         self.detection_graph = tf.Graph()
