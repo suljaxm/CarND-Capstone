@@ -45,9 +45,15 @@ class Controller(object):
         
         current_vel = self.vel_lpf.filt(current_vel)
 
-        # rospy.logwarn
+        # rospy.logwarn("angular vel: {0}".format(angular_vel))
+        # rospy.logwarn("target velocity: {0}".format(linear_vel))
+        # rospy.logwarn("target angular velocity: {0}".format(angular_vel))
+        # rospy.logwarn("current velocity: {0}".format(current_vel))
+        # rospy.logwarn("filtered velocity: {0}".format(self.vel_lpf.get()))
 
         steering = self.yaw_controller.get_steering(linear_vel, angular_vel, current_vel)
+
+        rospy.logwarn("steering: {0}".format(steering))
 
         vel_error = linear_vel - current_vel
         self.last_vel = current_vel
